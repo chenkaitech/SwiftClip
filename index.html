@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SwiftClip · Clipboard</title>
+<meta name="description" content="SwiftClip · Lightweight, private clipboard manager. Batch copy & merge. 本地剪贴板管理 · 批量复制与合并。">
+<link rel="icon" href="favicon.ico">
+<style>
+:root{
+  --bg:#16171E;
+  --surface:#1E1F27;
+  --text:#E8EAF4;
+  --text2:#B4B8C9;
+  --blue:#4F8DFF; /* SwiftClip accent */
+  --green:#2ECC71;
+  --orange:#FF8A4D;
+  --violet:#7E57C2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Helvetica, Arial, Noto Sans, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei", sans-serif;}
+a{color:var(--blue);text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:40px 24px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700}
+.brand img.icon{width:40px;height:40px;border-radius:12px}
+.lang-switch{display:flex;gap:8px;background:var(--surface);border-radius:12px;padding:6px}
+.lang-switch button{all:unset;cursor:pointer;padding:6px 14px;border-radius:10px;color:var(--text2);font-weight:600}
+.lang-switch button.active{background:var(--blue);color:#0B1220}
+.hero{display:grid;grid-template-columns:1.1fr 0.9fr;gap:36px;align-items:center;margin-top:40px}
+.hero h1{font-size:40px;line-height:1.1;margin:0 0 16px}
+.hero p.lead{color:var(--text2);font-size:18px;margin:0 0 24px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.button{display:inline-flex;align-items:center;gap:10px;background:var(--blue);color:#0B1220;font-weight:700;padding:14px 22px;border-radius:14px;box-shadow:0 10px 30px rgba(79,141,255,.25);} 
+.button.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
+.card{background:var(--surface);border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.25);} 
+.section{margin-top:80px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.tag{display:inline-block;padding:6px 10px;border-radius:8px;font-size:13px}
+.sample{width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.35);background:#0f1118;aspect-ratio:9/19.5;object-fit:cover}
+.footer{margin-top:80px;color:var(--text2);font-size:14px;border-top:1px solid rgba(255,255,255,.08);padding:32px 0}
+.hidden{display:none !important}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:14px;background:#0f1118;border:1px solid rgba(255,255,255,.08);color:var(--text2);font-size:14px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.gallery img{width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.35);background:#0f1118;aspect-ratio:9/19.5;object-fit:cover}
+@media (max-width:960px){.hero{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <nav>
+    <div class="brand">
+      <img class="icon" src="swiftclip-icon.png" alt="SwiftClip icon">
+      <span>SwiftClip · Clipboard</span>
+    </div>
+    <div class="lang-switch">
+      <button id="btn-en" class="active">English</button>
+      <button id="btn-zh">中文</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1 data-en="Copy. Save. Reuse. Instantly." data-zh="复制·保存·复用，一键即得"></h1>
+      <p class="lead" data-en="SwiftClip is a lightweight, local-first clipboard manager to store & pin text snippets. Tap to copy — no cloud, no login, just speed & privacy." data-zh="SwiftClip 是一款轻量、本地优先的剪贴板管理器，用于存储与置顶文本片段。一键复制，无云端、无需登录，给你速度与隐私。"></p>
+      <div class="cta">
+        <a href="#" class="button" data-en="Get the App" data-zh="立即下载"></a>
+        <a href="#features" class="button ghost" data-en="Learn more" data-zh="了解功能"></a>
+      </div>
+      <div style="margin-top:24px" class="badge">
+        <span>•</span>
+        <span data-en="Local‑first · No accounts · No ads" data-zh="本地优先 · 无需账号 · 无广告"></span>
+      </div>
+    </div>
+    <div class="card">
+      <img class="sample" src="screenshot1.png" alt="SwiftClip screenshot 1">
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <h2 data-en="Core features" data-zh="核心功能"></h2>
+    <div class="grid-3" style="margin-top:24px">
+      <div class="card">
+        <div class="tag" style="background:rgba(79,141,255,.18);color:var(--blue)">Clipboard</div>
+        <h3 style="margin:12px 0" data-en="Auto clipboard monitoring" data-zh="自动剪贴板监听"></h3>
+        <p class="text2" data-en="Save new items instantly. Smart type detection for text, URLs, email, phone, and code. Duplicate cleanup. Up to 1000 records." data-zh="实时保存新内容；智能识别文本、链接、邮箱、电话与代码；自动去重；最多保存 1000 条记录。"></p>
+      </div>
+      <div class="card">
+        <div class="tag" style="background:rgba(46,204,113,.18);color:var(--green)">Batch</div>
+        <h3 style="margin:12px 0" data-en="Batch copy & merge" data-zh="批量复制与合并"></h3>
+        <p class="text2" data-en="Pick multiple snippets, reorder, then copy at once. Merge with 6 separators (newline, space, comma, semicolon, pipe, dash) and preview before saving." data-zh="多选片段后可排序并一键复制；支持 6 种分隔符合并（换行、空格、逗号、分号、竖线、横线），复制前可预览与保存。"></p>
+      </div>
+      <div class="card">
+        <div class="tag" style="background:rgba(255,138,77,.18);color:var(--orange)">Organize</div>
+        <h3 style="margin:12px 0" data-en="Search, pin, and tags" data-zh="搜索、置顶与标签"></h3>
+        <p class="text2" data-en="Pin important items, add multiple tags, and filter fast with full‑text search." data-zh="支持置顶重点内容，添加多标签，并通过全文搜索快速筛选。"></p>
+      </div>
+      <div class="card">
+        <div class="tag" style="background:rgba(126,87,194,.18);color:var(--violet)">Security</div>
+        <h3 style="margin:12px 0" data-en="Local & secure" data-zh="本地与安全"></h3>
+        <p class="text2" data-en="Protect access with password or Face ID/Touch ID. Optional app lock. 100% local storage; no cloud, no tracking." data-zh="支持密码或 Face ID/Touch ID 保护，应用锁可选；数据 100% 存于本机，无云端、无跟踪。"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 data-en="Screenshots" data-zh="界面预览"></h2>
+    <p class="lead" data-en="Replace the four images below with your actual screenshots." data-zh="将下方四张占位图替换为你的真实截图。"></p>
+    <div class="gallery" style="margin-top:16px">
+      <img src="screenshot1.png" alt="screenshot 1">
+      <img src="screenshot2.png" alt="screenshot 2">
+      <img src="screenshot3.png" alt="screenshot 3">
+      <img src="screenshot4.png" alt="screenshot 4">
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid-2">
+      <div class="card">
+        <h2 data-en="Privacy" data-zh="隐私"></h2>
+        <p class="text2" data-en="Your data stays on device by default. iCloud sync is optional (if provided) and end‑to‑end encrypted. No account required." data-zh="数据默认仅存本机；若提供 iCloud 同步，则为可选并采用端到端加密。无需账号。"></p>
+      </div>
+      <div class="card">
+        <h2 data-en="Support" data-zh="支持"></h2>
+        <p class="text2" data-en="Questions or feedback? Email us anytime." data-zh="如有问题或建议，欢迎邮件联系。"></p>
+        <p>
+          <a href="mailto:support@example.com">support@example.com</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="grid-2">
+      <div>
+        <strong>SwiftClip · Clipboard</strong><br>
+        <span data-en="© 2025 Your Studio. All rights reserved." data-zh="© 2025 你的工作室。保留所有权利。"></span>
+      </div>
+      <div style="text-align:right">
+        <a href="#privacy" data-en="Privacy Policy" data-zh="隐私政策"></a> ·
+        <a href="#terms" data-en="Terms" data-zh="使用条款"></a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+function setLang(lang){
+  document.querySelectorAll("[data-en]").forEach(el=>{
+    const text = el.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+    if(text!==null){ el.textContent = text; }
+  });
+  document.getElementById("btn-en").classList.toggle("active", lang==="en");
+  document.getElementById("btn-zh").classList.toggle("active", lang==="zh");
+  localStorage.setItem("sniply-lang", lang);
+}
+document.getElementById("btn-en").onclick=()=>setLang("en");
+document.getElementById("btn-zh").onclick=()=>setLang("zh");
+const saved = localStorage.getItem("sniply-lang") || (navigator.language.startsWith("zh")?"zh":"en");
+setLang(saved);
+</script>
+</body>
+</html>
